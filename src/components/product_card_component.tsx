@@ -23,7 +23,7 @@ export function ProductCard({
 
   const handleClick = () => {
     router.push(
-      `/ProductPresentation?name=${encodeURIComponent(
+      `/product-presentation?name=${encodeURIComponent(
         name
       )}&price=${price}&discount=${discount}&image=${encodeURIComponent(
         image
@@ -36,7 +36,7 @@ export function ProductCard({
     const product = { name, price, image, discount, quantity, description };
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingProductIndex = cart.findIndex(
-      (item: any) => item.name === name
+      (item: ProductInterface) => item.name === name
     );
 
     if (existingProductIndex !== -1) {

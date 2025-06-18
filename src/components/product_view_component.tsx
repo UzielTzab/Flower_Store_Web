@@ -22,7 +22,7 @@ export function ProductViewComponent({
     const product = { name, price, image, discount, quantity };
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const existingProductIndex = cart.findIndex(
-      (item: any) => item.name === name
+      (item: ProductInterface) => item.name === name
     );
 
     if (existingProductIndex !== -1) {
@@ -33,9 +33,11 @@ export function ProductViewComponent({
 
     localStorage.setItem("cart", JSON.stringify(cart));
     setShowBanner(true);
+    // Despacha el evento personalizado
+    window.dispatchEvent(new Event("cartUpdated"));
     setTimeout(() => {
       setShowBanner(false);
-      router.push("/cart");
+      router.push("/cart-page");
     }, 1000);
   };
 
@@ -73,7 +75,6 @@ export function ProductViewComponent({
             />
           </div>
           <div className="col-md-6">
-            <div className="small mb-1">SKU: BST-498</div>
             <h1 className="display-5 fw-bolder">{name}</h1>
             <div className="fs-5 mb-5">
               <span className="text-decoration-line-through">${price}</span>

@@ -163,7 +163,7 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
           <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {loading
               ? // Mostrar placeholders mientras se cargan los productos
-                Array.from({ length: 8 }).map((_, index) => (
+                Array.from({ length: 16 }).map((_, index) => (
                   <div key={index} className="col mb-5">
                     <div className="card h-100">
                       <div className="card-body p-4">
