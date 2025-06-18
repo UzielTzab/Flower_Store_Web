@@ -46,7 +46,7 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
         setTimeout(() => setShowErrorModal(false), 3000);
       }
     }
-  }, [searchTerm, products]);
+  }, [searchTerm, products, filteredProducts]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,6 +63,23 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const storedProducts = localStorage.getItem("product_on_stock");
+    setLoading(true);
+    if (storedProducts) {
+      setLoading(false);
+      setShowSuccessModal(true);
+      const allProducts: ProductInterface[] = JSON.parse(storedProducts);
+      const filteredProducts = allProducts.filter((product: ProductInterface) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setProducts(filteredProducts);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 1000);
+    }
+  }, [searchTerm]);
 
   return (
     <>

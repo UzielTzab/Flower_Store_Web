@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { Modal, Spinner } from "react-bootstrap";
 import { ProductInterface } from "@/models/product_interface";
+import Image from "next/image";
 
 export function ProductCard({
   name,
@@ -92,7 +93,13 @@ export function ProductCard({
             <FontAwesomeIcon icon={faShoppingCart} className="shoppingCart" />
           )}
         </button>
-        <img className="card-img-top" src={image} alt="..." />
+        <Image
+          className="card-img-top"
+          src={image}
+          alt="..."
+          width={300}
+          height={200}
+        />
         <div className="card-body p-4">
           <div className="text-center">
             <h5 className="fw-bolder">{name}</h5>${price} - ${discount}
