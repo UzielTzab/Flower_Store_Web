@@ -26,7 +26,7 @@ interface CartItem {
   quantity: number;
 }
 
-export function Cart() {
+export default function Cart() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   // const [boughtItems, setBoughtItems] = useState<CartItem[]>([]);
   const [totalQuantity, setTotalQuantity] = useState<number>(0);
@@ -578,5 +578,3 @@ export function Cart() {
     </>
   );
 }
-
-export default Cart;
