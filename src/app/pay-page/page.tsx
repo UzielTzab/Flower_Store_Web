@@ -1,6 +1,9 @@
+"use client";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { HeaderComponent } from "@/components/header_component";
 import { FooterComponent } from "@/components/footer_component";
+import Image from "next/image";
 import Link from "next/link";
 
 interface CartItem {
@@ -10,16 +13,16 @@ interface CartItem {
   quantity: number;
 }
 
-interface PayPageProps {
-  cartItems: CartItem[];
-  totalQuantity: number;
-}
-
 export function PayPage() {
-  //Recibir datos desde el uso de Navigate en el componente Cart
   const searchParams = useSearchParams();
-  const value = searchParams.get("paramName");
-  const { cartItems, totalQuantity } = location.state as PayPageProps;
+  const totalQuantity = Number(searchParams.get("totalQuantity")) || 0;
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    // Leer los productos comprados desde localStorage
+    const bought = JSON.parse(localStorage.getItem("boughtItems") || "[]");
+    setCartItems(bought);
+  }, []);
 
   const HandleToHome = () => {
     //limpiar boughtItems del localStorage
@@ -38,7 +41,7 @@ export function PayPage() {
               <Link href="/">Principal</Link>
             </li>
             <li className="breadcrumb-item">
-              <a href="/Cart">Carrito</a>
+              <a href="/cart-page">Carrito</a>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
               Pago
@@ -60,7 +63,7 @@ export function PayPage() {
                 >
                   <div className="d-flex justify-content-center">
                     <div>
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.name}
                         width="100"
@@ -95,3 +98,5 @@ export function PayPage() {
     </>
   );
 }
+
+export default PayPage;

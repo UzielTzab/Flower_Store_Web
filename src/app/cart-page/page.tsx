@@ -15,6 +15,8 @@ import {
   faCcPaypal,
 } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface CartItem {
   name: string;
@@ -52,6 +54,8 @@ export function Cart() {
     cvv: "",
   });
 
+  const router = useRouter();
+
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCartItems(cart);
@@ -86,9 +90,8 @@ export function Cart() {
     window.dispatchEvent(new Event("cartUpdated"));
 
     setTextTitleForModal("Producto eliminado");
+    setTextForModal("El producto ha sido eliminado del carrito");
     setTimeout(() => {
-      setTextTitleForModal("Procesando la transacción");
-      setTextForModal("El producto ha sido eliminado del carrito");
       setShowModal(false);
     }, 2000);
   };
@@ -176,22 +179,76 @@ export function Cart() {
   };
 
   const handleCheckout = () => {
+    // Validar antes de continuar
+    let hasError = false;
+    const newErrors = { ...errors };
+    // Mensajes originales
+    const originalMessages = {
+      fullName: "El nombre solo debe contener letras y espacios.",
+      cardNumber: "El número de tarjeta debe tener 16 dígitos.",
+      expiryDate: "La fecha debe estar en formato MM/AAAA.",
+      cvv: "El CVV debe tener 3 o 4 dígitos.",
+    };
+    if (!formData.fullName) {
+      newErrors.fullName = "El nombre es obligatorio.";
+      hasError = true;
+    } else if (
+      errors.fullName &&
+      errors.fullName !== originalMessages.fullName
+    ) {
+      newErrors.fullName = originalMessages.fullName;
+    }
+    if (!formData.cardNumber) {
+      newErrors.cardNumber = "El número de tarjeta es obligatorio.";
+      hasError = true;
+    } else if (
+      errors.cardNumber &&
+      errors.cardNumber !== originalMessages.cardNumber
+    ) {
+      newErrors.cardNumber = originalMessages.cardNumber;
+    }
+    if (!formData.expiryDate) {
+      newErrors.expiryDate = "La fecha de expiración es obligatoria.";
+      hasError = true;
+    } else if (
+      errors.expiryDate &&
+      errors.expiryDate !== originalMessages.expiryDate
+    ) {
+      newErrors.expiryDate = originalMessages.expiryDate;
+    }
+    if (!formData.cvv) {
+      newErrors.cvv = "El CVV es obligatorio.";
+      hasError = true;
+    } else if (errors.cvv && errors.cvv !== originalMessages.cvv) {
+      newErrors.cvv = originalMessages.cvv;
+    }
+    setErrors(newErrors);
+    if (
+      hasError ||
+      Object.values(newErrors).some(
+        (error) =>
+          error !== "" && !Object.values(originalMessages).includes(error)
+      )
+    ) {
+      return;
+    }
     if (cartItems.length === 0) {
       setShowErrorModal(true);
       return;
     }
-
     setShowModal(true);
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
       setTotalQuantity(0);
       setTotalDiscount(0);
-      // setBoughtItems(cartItems);
       localStorage.setItem("boughtItems", JSON.stringify(cartItems));
       localStorage.removeItem("cart");
-      setTimeout(() => {}, 3000);
-    }, 3000); // Simula una transacción de 3 segundos
+      setTimeout(() => {
+        // Navegación a la página de pago usando Next.js y query params
+        router.push(`/pay-page?totalQuantity=${totalQuantity}`);
+      }, 3000);
+    }, 3000);
   };
 
   return (
@@ -249,8 +306,8 @@ export function Cart() {
               </div>
               <div className="modal-body">
                 <p>
-                  Your cart is empty. Please add items to your cart before
-                  checking out.
+                  Tu carrito está vacío, por favor añade productos para realizar
+                  la compra.
                 </p>
               </div>
               <div className="modal-footer">
@@ -315,11 +372,13 @@ export function Cart() {
                             <div className="d-flex justify-content-between">
                               <div className="d-flex flex-row align-items-center">
                                 <div>
-                                  <img
+                                  <Image
                                     src={item.image}
                                     className="img-fluid rounded-3"
                                     alt="Shopping item"
                                     style={{ width: "65px" }}
+                                    width={65}
+                                    height={65}
                                   />
                                 </div>
                                 <div className="ms-3">
