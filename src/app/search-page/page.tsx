@@ -1,15 +1,17 @@
-import { FooterComponent } from "../components/footer_component";
-import { HeaderComponent } from "../components/header_component";
+"use client";
+
+import { FooterComponent } from "@/components/footer_component";
+import { HeaderComponent } from "@/components/header_component";
 import { useEffect, useState } from "react";
-import { ProductCard } from "../components/product_card_component"; // Asegúrate de importar este componente si lo usas
-import { useLocation } from "react-router-dom";
+import { ProductCard } from "@/components/product_card_component";
 import { Modal, Spinner } from "react-bootstrap";
 import { ExclamationCircle, CheckCircle } from "react-bootstrap-icons";
-import { ProductInterface } from "../models/interfaces/product_interface";
+import { ProductInterface } from "@/models/product_interface";
+import { useSearchParams } from "next/navigation";
 
-export function Search() {
-  const location = useLocation();
-  const search = location.state?.search || "";
+export default function SearchPage() {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search") || "";
 
   const [filteredProducts, setProducts] = useState<ProductInterface[]>([]);
   const [loading, setLoading] = useState(false);
@@ -17,7 +19,6 @@ export function Search() {
   const [showErrorModal, setShowErrorModal] = useState(false);
 
   useEffect(() => {
-    // Filtra los productos por el término de búsqueda
     const storedProducts = localStorage.getItem("product_on_stock");
     setLoading(true);
     if (storedProducts) {
@@ -39,7 +40,9 @@ export function Search() {
       <HeaderComponent />
       <section className="py-5">
         <header className="bg-dark py-3 text-white">
-          <h4 className="mx-30 ps-4">Resultados de la busqueda "{search}"</h4>
+          <h4 className="mx-30 ps-4">
+            Resultados de la búsqueda &quot;{search}&quot;
+          </h4>
         </header>
         <div className="container px-4 px-lg-5 mt-5">
           <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -67,19 +70,17 @@ export function Search() {
           <Modal.Title>Éxito</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CheckCircle color="green" size={36} />{" "}
-          {/* Muestra un icono de check verde */}
-          Se encontrarón {filteredProducts.length} resultados
+          <CheckCircle color="green" size={36} /> Se encontraron{" "}
+          {filteredProducts.length} resultados
         </Modal.Body>
       </Modal>
       <Modal show={showErrorModal} onHide={() => setShowErrorModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Error al crear la cuentan</Modal.Title>
+          <Modal.Title>Error</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ExclamationCircle color="red" size={36} />{" "}
-          {/* Muestra un icono de check verde */}
-          Correo electronico o contraseña incorrecta.
+          <ExclamationCircle color="red" size={36} /> Correo electrónico o
+          contraseña incorrecta.
         </Modal.Body>
       </Modal>
       <FooterComponent />
