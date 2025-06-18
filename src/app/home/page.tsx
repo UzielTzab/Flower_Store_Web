@@ -3,7 +3,7 @@ import { FooterComponent } from "@/components/footer_component";
 import { HeaderComponent } from "@/components/header_component";
 import { MainComponent } from "@/components/main_component";
 import { useState } from "react";
-export function Home() {
+export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (

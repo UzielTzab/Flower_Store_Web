@@ -13,7 +13,7 @@ interface CartItem {
   quantity: number;
 }
 
-export function PayPage() {
+export default function PayPage() {
   const searchParams = useSearchParams();
   const totalQuantity = Number(searchParams.get("totalQuantity")) || 0;
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -98,5 +98,3 @@ export function PayPage() {
     </>
   );
 }
-
-export default PayPage;
