@@ -47,11 +47,11 @@ a {
 }
 
 .carousel-caption {
-  /* right: -3%;
-  bottom: -2.6rem;
+  right: -3%;
+  bottom: -2.7rem;
   left: -3%;
-  padding-top: 1.25rem; */
-  /* padding-bottom: 3.25rem; */
+  padding-top: 1.25rem;
+  padding-bottom: 3.25rem;
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
   border-bottom-left-radius: 2rem;

@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { FooterComponent } from "@/components/footer_component";
 import { HeaderComponent } from "@/components/header_component";
@@ -518,3 +519,5 @@ export function Cart() {
     </>
   );
 }
+
+export default Cart;

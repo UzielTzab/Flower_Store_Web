@@ -868,7 +868,7 @@ export function HeaderComponent({
           <span className="navbar-toggler-icon"></span>
         </button>
         <form className="d-flex mx-2">
-          <Link href="/Cart" className="btn btn-outline-dark">
+          <Link href="/cart-page" className="btn btn-outline-dark">
             <i className="bi-cart-fill me-1"></i>
             <FontAwesomeIcon icon={faShoppingCart} />
             <span className="badge  bg-white text-black ms-1 rounded-pill">
