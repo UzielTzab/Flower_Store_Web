@@ -40,3 +40,25 @@ a {
     color-scheme: dark;
   }
 }
+
+.carousel-image {
+  height: 600px !important;
+  object-fit: cover;
+}
+
+.carousel-caption {
+  /* right: -3%;
+  bottom: -2.6rem;
+  left: -3%;
+  padding-top: 1.25rem; */
+  /* padding-bottom: 3.25rem; */
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+}
+
+.carousel-text {
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
