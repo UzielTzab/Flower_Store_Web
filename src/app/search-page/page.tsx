@@ -30,16 +30,19 @@ function SearchPageContent() {
     const storedProducts = localStorage.getItem("product_on_stock");
     setLoading(true);
     if (storedProducts) {
-      setLoading(false);
-      setShowSuccessModal(true);
       const allProducts: ProductInterface[] = JSON.parse(storedProducts);
       const filteredProducts = allProducts.filter((product: ProductInterface) =>
         product.name.toLowerCase().includes(search.toLowerCase())
       );
       setProducts(filteredProducts);
+      setShowSuccessModal(true);
       setTimeout(() => {
         setShowSuccessModal(false);
       }, 1000);
+      setLoading(false);
+    } else {
+      setProducts([]);
+      setLoading(false);
     }
   }, [search]);
 
@@ -53,6 +56,11 @@ function SearchPageContent() {
           </h4>
         </header>
         <div className="container px-4 px-lg-5 mt-5">
+          {filteredProducts.length === 0 && !loading && (
+            <div className="alert alert-warning text-center">
+              No se encontraron productos.
+            </div>
+          )}
           <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             {filteredProducts.map((product, index) => (
               <ProductCard

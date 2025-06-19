@@ -81,6 +81,9 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
     }
   }, [searchTerm]);
 
+  // Solo mostrar loading/modal en la carga inicial, no durante filtrado local
+  const showLoading = loading && !isFiltering;
+
   return (
     <>
       <header className="bg-dark">
@@ -178,8 +181,8 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
       <section className="py-5">
         <div className="container px-4 px-lg-5 mt-5">
           <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {loading
-              ? // Mostrar placeholders mientras se cargan los productos
+            {showLoading
+              ? // Mostrar placeholders solo en la carga inicial
                 Array.from({ length: 16 }).map((_, index) => (
                   <div key={index} className="col mb-5">
                     <div className="card h-100">
@@ -201,7 +204,11 @@ export function MainComponent({ searchTerm }: { searchTerm: string }) {
           </div>
         </div>
       </section>
-      <Modal show={loading} onHide={() => setLoading(false)} backdrop="static">
+      <Modal
+        show={showLoading}
+        onHide={() => setLoading(false)}
+        backdrop="static"
+      >
         <Modal.Header closeButton>
           <Modal.Title>Cargando las flores...</Modal.Title>
         </Modal.Header>
