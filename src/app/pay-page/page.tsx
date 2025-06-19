@@ -1,11 +1,11 @@
 "use client";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { HeaderComponent } from "@/components/header_component";
 import { FooterComponent } from "@/components/footer_component";
-import Image from "next/image";
-import Link from "next/link";
 
+import Link from "next/link";
+import Image from "next/image";
 interface CartItem {
   name: string;
   image: string;
@@ -25,14 +25,13 @@ export default function PayPage() {
   }, []);
 
   const HandleToHome = () => {
-    //limpiar boughtItems del localStorage
     localStorage.removeItem("cart");
     localStorage.removeItem("boughtItems");
     window.location.href = "/";
   };
 
   return (
-    <>
+    <Suspense fallback={<div>Cargando...</div>}>
       <HeaderComponent />
       <div className="container mt-5">
         <nav aria-label="breadcrumb">
@@ -95,6 +94,6 @@ export default function PayPage() {
         </div>
       </div>
       <FooterComponent />
-    </>
+    </Suspense>
   );
 }

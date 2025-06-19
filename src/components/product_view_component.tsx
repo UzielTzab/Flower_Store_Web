@@ -70,7 +70,7 @@ export function ProductViewComponent({
               src={image}
               alt="..."
               width={500} // Ajusta el ancho según tu diseño
-              height={500} // Ajusta la altura según tu diseño
+              height={600} // Ajusta la altura según tu diseño
               style={{ objectFit: "cover" }} // Opcional, para mantener el estilo
             />
           </div>

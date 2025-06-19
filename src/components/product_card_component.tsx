@@ -96,9 +96,16 @@ export function ProductCard({
         <Image
           className="card-img-top"
           src={image}
-          alt="..."
+          alt={name}
           width={300}
-          height={200}
+          height={300}
+          style={{
+            objectFit: "cover",
+            width: "100%",
+            height: "300px",
+            borderTopLeftRadius: "0.5rem",
+            borderTopRightRadius: "0.5rem",
+          }}
         />
         <div className="card-body p-4">
           <div className="text-center">
