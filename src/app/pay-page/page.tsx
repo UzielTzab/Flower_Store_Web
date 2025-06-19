@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { HeaderComponent } from "@/components/header_component";
 import { FooterComponent } from "@/components/footer_component";
-
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 interface CartItem {
@@ -22,6 +22,7 @@ export default function PayPage() {
 }
 
 function PayPageContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const totalQuantity = Number(searchParams.get("totalQuantity")) || 0;
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -35,7 +36,7 @@ function PayPageContent() {
   const HandleToHome = () => {
     localStorage.removeItem("cart");
     localStorage.removeItem("boughtItems");
-    window.location.href = "/";
+    router.push("/");
   };
 
   return (
