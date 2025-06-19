@@ -14,6 +14,14 @@ interface CartItem {
 }
 
 export default function PayPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <PayPageContent />
+    </Suspense>
+  );
+}
+
+function PayPageContent() {
   const searchParams = useSearchParams();
   const totalQuantity = Number(searchParams.get("totalQuantity")) || 0;
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -31,7 +39,7 @@ export default function PayPage() {
   };
 
   return (
-    <Suspense fallback={<div>Cargando...</div>}>
+    <>
       <HeaderComponent />
       <div className="container mt-5">
         <nav aria-label="breadcrumb">
@@ -65,8 +73,9 @@ export default function PayPage() {
                       <Image
                         src={item.image}
                         alt={item.name}
-                        width="100"
-                        height="100"
+                        width={100}
+                        height={100}
+                        style={{ objectFit: "cover", borderRadius: "0.5rem" }}
                       />
                     </div>
                     <div className="d-flex flex-column justify-content-center px-4">
@@ -94,6 +103,6 @@ export default function PayPage() {
         </div>
       </div>
       <FooterComponent />
-    </Suspense>
+    </>
   );
 }
