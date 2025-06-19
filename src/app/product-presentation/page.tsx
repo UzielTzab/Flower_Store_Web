@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { ProductViewComponent } from "@/components/product_view_component";
 import { FooterComponent } from "@/components/footer_component";
@@ -6,6 +7,14 @@ import { HeaderComponent } from "@/components/header_component";
 import { SidebarCart } from "@/components/sidebar_cart";
 
 export default function ProductPresentation() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <ProductPresentationContent />
+    </Suspense>
+  );
+}
+
+function ProductPresentationContent() {
   const searchParams = useSearchParams();
   const name = searchParams.get("name") || "";
   const price = Number(searchParams.get("price")) || 0;

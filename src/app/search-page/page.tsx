@@ -2,7 +2,7 @@
 
 import { FooterComponent } from "@/components/footer_component";
 import { HeaderComponent } from "@/components/header_component";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { ProductCard } from "@/components/product_card_component";
 import { Modal, Spinner } from "react-bootstrap";
 import { ExclamationCircle, CheckCircle } from "react-bootstrap-icons";
@@ -10,6 +10,14 @@ import { ProductInterface } from "@/models/product_interface";
 import { useSearchParams } from "next/navigation";
 
 export default function SearchPage() {
+  return (
+    <Suspense fallback={<div>Cargando...</div>}>
+      <SearchPageContent />
+    </Suspense>
+  );
+}
+
+function SearchPageContent() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") || "";
 
