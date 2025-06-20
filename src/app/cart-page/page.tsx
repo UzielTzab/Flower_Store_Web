@@ -17,13 +17,18 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { substractProducts } from "@/services/product_service";
 
 interface CartItem {
+  id: number;
   name: string;
   price: number;
   discount: number;
   image: string;
   quantity: number;
+  description?: string;
+  stock?: number;
+  status?: string;
 }
 
 export default function Cart() {
@@ -178,7 +183,7 @@ export default function Cart() {
     }
   };
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     // Validar antes de continuar
     let hasError = false;
     const newErrors = { ...errors };
@@ -236,6 +241,37 @@ export default function Cart() {
       setShowErrorModal(true);
       return;
     }
+    // --- NUEVO: Enviar productos comprados a la API ---
+    try {
+      // Filtrar productos con id válido
+      const productsToSend = cartItems
+        .filter(
+          (item) =>
+            item.id !== null && item.id !== undefined && Number(item.id) > 0
+        )
+        .map((item) => ({
+          id: Number(item.id),
+          quantity: item.quantity,
+        }));
+      if (productsToSend.length !== cartItems.length) {
+        setShowErrorModal(true);
+        setTextTitleForModal("Error en la compra");
+        setTextForModal(
+          "Uno o más productos no tienen un ID válido. No se puede procesar la compra."
+        );
+        setIsLoading(false);
+        return;
+      }
+      await substractProducts(productsToSend);
+    } catch (error) {
+      console.error("Error al procesar la compra:", error);
+      setShowErrorModal(true);
+      setTextTitleForModal("Error en la compra");
+      setTextForModal("No se pudo procesar la compra. Intenta de nuevo.");
+      setIsLoading(false);
+      return;
+    }
+    // --- FIN NUEVO ---
     setShowModal(true);
     setIsLoading(true);
     setTimeout(() => {
