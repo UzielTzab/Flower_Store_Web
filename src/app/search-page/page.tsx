@@ -65,12 +65,15 @@ function SearchPageContent() {
             {filteredProducts.map((product, index) => (
               <ProductCard
                 key={index}
+                id={product.id}
                 name={product.name}
                 price={product.price}
                 quantity={product.quantity}
                 discount={product.discount}
                 image={product.image}
                 description={product.description}
+                stock={product.stock}
+                status={product.status}
               />
             ))}
           </div>
